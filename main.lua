@@ -32,3 +32,4 @@ SlashCmdList["EMBERCOURTHELPER"] = EmberCourtHelperCommand;
 --         print(friendName, friendTextLevel)
 --     end
 -- end
+
