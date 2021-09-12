@@ -56,10 +56,8 @@ function EmberCourtHelper:CreateWindow()
     frame:SetCallback("OnClose", function(widget) AceGUI:Release(widget) end)
     frame:SetLayout("List")
 
-    -- local dropdownFrame = AceGUI:Create("Frame")
-    
-    local welcomeMessage = AceGUI:Create("Label")
-    welcomeMessage:SetText("Welcome to EmberCourtHelper.\n\n")
+    local welcomeMessage = AceGUI:Create("Label") -- TODO: Change to heading - why does frame go blank?
+    welcomeMessage:SetText("Welcome to EmberCourtHelper.")
     frame:AddChild(welcomeMessage)
 
     local incompleteReps = EmberCourtHelper:GetIncompleteReps()
@@ -75,27 +73,50 @@ function EmberCourtHelper:CreateWindow()
     local slot3_options = {"Polemarch Adrestes", "Alexandros Mograine", "Hunt-Captain Korayn", "Rendle and Cudgelface"}
     local slot4_options = {"Mikanikos", "Baroness Vashj", "Lady Moonberry", "The Countess"}
 
-    local dropdownFrame = AceGUI:Create("SimpleGroup")
+    -- Create dropdown frame and add child slot frames to select guests
+    local dropdownFrame = AceGUI:Create("Frame")
     dropdownFrame:SetTitle("Guest Selection")
-    -- dropdownFrame:SetPoint("CENTER", frame)
-    -- dropdownFrame:SetRelativeWidth(.9)
-    -- dropdownFrame:SetHeight(100)
-    dropdownFrame:setLayout("Flow")
+    dropdownFrame:SetLayout("Flow")
     frame:AddChild(dropdownFrame)
+    -- dropdownFrame:ClearAllPoints()
+    -- dropdownFrame:SetPoint("RIGHT", frame, "RIGHT")
+    -- TODO: Figure out how to anchor dropdownframe to frame so that it can't be dragged & resized by user
+    dropdownFrame:SetRelativeWidth(1.0)
+    dropdownFrame:SetHeight(200)
 
-    -- move slots to be defined before dropdown frame is added
     local slot1 = AceGUI:Create("Dropdown")
+    slot1:SetRelativeWidth(.25)
     slot1:SetLabel("Select 1st Guest")
     slot1:SetList(slot1_options)
-    slot1:SetValue(slot1_options[1])
+    slot1:SetValue("Sika") -- Save between sessions
+    dropdownFrame:AddChild(slot1)
+
     local slot2 = AceGUI:Create("Dropdown")
+    slot2:SetRelativeWidth(.25)
     slot2:SetLabel("Select 2nd Guest")
     slot2:SetList(slot2_options)
-    slot2:SetValue(slot2_options[1])
-    dropdownFrame:addChild(slot1)
-    dropdownFrame:addChild(slot2)
+    slot2:SetValue("Kleia and Pelagos")
+    dropdownFrame:AddChild(slot2)
 
-    
+    local slot3 = AceGUI:Create("Dropdown")
+    slot3:SetRelativeWidth(.25)
+    slot3:SetLabel("Select 3rd Guest")
+    slot3:SetList(slot3_options)
+    slot3:SetValue("Polemarch Adrestes")
+    dropdownFrame:AddChild(slot3)
+
+    local slot4 = AceGUI:Create("Dropdown")
+    slot4:SetRelativeWidth(.25)
+    slot4:SetLabel("Select 4th Guest")
+    slot4:SetList(slot4_options)
+    slot4:SetValue("Mikanikos")
+    dropdownFrame:AddChild(slot4)
+
+
+    -- frame:AddChild(dropdownFrame)
+    -- frame:AddChild(slot1)
+
+
     
     -- array with 1,2,3,4 spots for selected faction and their attributes
 
