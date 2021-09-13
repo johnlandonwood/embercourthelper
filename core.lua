@@ -56,17 +56,58 @@ function EmberCourtHelper:CreateWindow()
     frame:SetCallback("OnClose", function(widget) AceGUI:Release(widget) end)
     frame:SetLayout("List")
 
-    local welcomeMessage = AceGUI:Create("Label") -- TODO: Change to heading - why does frame go blank?
-    welcomeMessage:SetText("Welcome to EmberCourtHelper.")
-    frame:AddChild(welcomeMessage)
+    local repGroups = AceGUI:Create("TabGroup")
+    repGroups:SetTitle("Incomplete Guest Reputations")
+    frame:AddChild(repGroups)
+    repGroups:SetLayout("Flow")
+    repGroups:SetWidth(665)
+    repGroups:SetHeight(150)
+    
+    local strangers = AceGUI:Create("TabGroup")
+    strangers:SetTitle("Strangers")
+    repGroups:AddChild(strangers)
+    strangers:SetRelativeWidth(.21)
+
+    local acquaintances = AceGUI:Create("TabGroup")
+    acquaintances:SetTitle("Acquaintances")
+    repGroups:AddChild(acquaintances)
+    acquaintances:SetRelativeWidth(.21)
+
+    local buddies = AceGUI:Create("TabGroup")
+    buddies:SetTitle("Buddies")
+    repGroups:AddChild(buddies)
+    buddies:SetRelativeWidth(.21)
+
+    local friends = AceGUI:Create("TabGroup")
+    friends:SetTitle("Friends")
+    repGroups:AddChild(friends)
+    friends:SetRelativeWidth(.21)
+
+    local goodfriends = AceGUI:Create("TabGroup")
+    goodfriends:SetTitle("Good Friends")
+    repGroups:AddChild(goodfriends)
+    goodfriends:SetRelativeWidth(.21)
+
 
     local incompleteReps = EmberCourtHelper:GetIncompleteReps()
     for name, standing in pairs(incompleteReps) do
         local repLine = AceGUI:Create("Label")
-        repLine:SetText(name .. " - " .. standing)
-        -- set image here
-        frame:AddChild(repLine)
+        repLine:SetText(name)
+        -- Set image here
+        if standing == "Stranger" then
+            strangers:AddChild(repLine)
+        elseif standing == "Acquaintance" then
+            acquaintances:AddChild(repLine)
+        elseif standing == "Buddy" then
+            buddies:AddChild(repLine)
+        elseif standing == "Friend" then
+            friends:AddChild(repLine)
+        elseif standing == "Good Friend" then
+            goodfriends:AddChild(repLine)
+        end 
     end
+
+
 
     local slot1_options = {"Sika", "Plague Deviser Marileth", "Choofa", "Cryptkeeper Kassir"}
     local slot2_options = {"Kleia and Pelagos", "Grandmaster Vole", "Droman Aliothe", "Stonehead"}
@@ -74,15 +115,13 @@ function EmberCourtHelper:CreateWindow()
     local slot4_options = {"Mikanikos", "Baroness Vashj", "Lady Moonberry", "The Countess"}
 
     -- Create dropdown frame and add child slot frames to select guests
-    local dropdownFrame = AceGUI:Create("Frame")
+    local dropdownFrame = AceGUI:Create("TabGroup")
     dropdownFrame:SetTitle("Guest Selection")
     dropdownFrame:SetLayout("Flow")
     frame:AddChild(dropdownFrame)
-    -- dropdownFrame:ClearAllPoints()
-    -- dropdownFrame:SetPoint("RIGHT", frame, "RIGHT")
-    -- TODO: Figure out how to anchor dropdownframe to frame so that it can't be dragged & resized by user
-    dropdownFrame:SetRelativeWidth(1.0)
+    dropdownFrame:SetWidth(665)
     dropdownFrame:SetHeight(200)
+
 
     local slot1 = AceGUI:Create("Dropdown")
     slot1:SetRelativeWidth(.25)
@@ -113,11 +152,6 @@ function EmberCourtHelper:CreateWindow()
     dropdownFrame:AddChild(slot4)
 
 
-    -- frame:AddChild(dropdownFrame)
-    -- frame:AddChild(slot1)
-
-
-    
     -- array with 1,2,3,4 spots for selected faction and their attributes
 
 end
