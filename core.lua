@@ -113,13 +113,10 @@ function EmberCourtHelper:CreateWindow()
     end
 
 
-
     local slot1_options = {"Sika", "Plague Deviser Marileth", "Choofa", "Cryptkeeper Kassir"}
     local slot2_options = {"Kleia and Pelagos", "Grandmaster Vole", "Droman Aliothe", "Stonehead"}
     local slot3_options = {"Polemarch Adrestes", "Alexandros Mograine", "Hunt-Captain Korayn", "Rendle and Cudgelface"}
     local slot4_options = {"Mikanikos", "Baroness Vashj", "Lady Moonberry", "The Countess"}
-
-
 
 
     -- Create dropdown frame and add child slot frames to select guests
@@ -167,7 +164,6 @@ function EmberCourtHelper:CreateWindow()
     slot4:SetCallback("OnValueChanged", function(widget, event, choice) slot4_choice = choice end)
     dropdownFrame:AddChild(slot4)
     
-
     local calc_button = AceGUI:Create("Button")
     calc_button:SetText("Calculate Target Attributes")
     calc_button:SetWidth(100)
@@ -178,37 +174,6 @@ function EmberCourtHelper:CreateWindow()
         slot4_options[slot4_choice]) 
     end)
     frame:AddChild(calc_button)
-
-
-
-
-
-    -- local frame = AceGUI:Create("Frame")
-    -- frame:SetTitle("Example Frame")
-    -- frame:SetStatusText("AceGUI-3.0 Example Container Frame")
-    -- frame:SetCallback("OnClose", function(widget) AceGUI:Release(widget) end)
-    -- frame:SetLayout("Flow")
-
-    -- local editbox = AceGUI:Create("EditBox")
-    -- editbox:SetLabel("Insert text:")
-    -- editbox:SetWidth(200)
-    -- editbox:SetCallback("OnEnterPressed", function(widget, event, text) textStore = text end)
-    -- frame:AddChild(editbox)
-    
-    -- local slot1_choice
-    -- local slot1 = AceGUI:Create("Dropdown")
-    -- slot1:SetRelativeWidth(.25)
-    -- slot1:SetLabel("Select 1st Guest")
-    -- slot1:SetList(slot1_options)
-    -- slot1:SetCallback("OnValueChanged", function(widget, event, choice) slot1_choice = choice end)
-    -- frame:AddChild(slot1)
-
-    -- local button = AceGUI:Create("Button")
-    -- button:SetText("Click Me!")
-    -- button:SetWidth(200)
-    -- button:SetCallback("OnClick", function() print(slot1_choice) end)
-    -- frame:AddChild(button)
-
 
 
     -- array with 1,2,3,4 spots for selected faction and their attributes
