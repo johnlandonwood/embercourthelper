@@ -48,11 +48,6 @@ function EmberCourtHelper:GetIncompleteReps()
     return reps
 end
 
-function EmberCourtHelper:dropdown_value_callback(this, event, choice) 
-    print(choice)
-end
-
-
 function EmberCourtHelper:CreateWindow()
 
     local frame = AceGUI:Create("Frame")
@@ -134,7 +129,6 @@ function EmberCourtHelper:CreateWindow()
     slot1:SetList(slot1_options)
     -- slot1:SetValue("Sika") -- Save between sessions
     slot1:SetCallback("OnValueChanged", function(widget, event, choice) slot1_choice = choice end)
-    -- slot1:SetCallback("OnValueChanged", dropdown_value_callback)
     dropdownFrame:AddChild(slot1)
 
     local slot2_choice
@@ -164,24 +158,49 @@ function EmberCourtHelper:CreateWindow()
     slot4:SetCallback("OnValueChanged", function(widget, event, choice) slot4_choice = choice end)
     dropdownFrame:AddChild(slot4)
     
-    local calc_button = AceGUI:Create("Button")
-    calc_button:SetText("Calculate Target Attributes")
-    calc_button:SetWidth(100)
-    calc_button:SetCallback("OnClick", function() print(
-        slot1_options[slot1_choice],
-        slot2_options[slot2_choice],
-        slot3_options[slot3_choice],
-        slot4_options[slot4_choice]) 
-    end)
-    frame:AddChild(calc_button)
+    -- Tables for guest preferences
+    local slot1_prefs = {
+        {"Clean"}, -- Sika
+        {"Messy"}, -- Marileth
+        {"Exciting"}, -- Choofa
+        {"Formal"} -- Kassir
+    }
+    local slot2_prefs = {
+        {"Humble"}, -- Kleia and Pelagos
+        {"Dangerous"}, -- Grandmaster Vole
+        {"Relaxing"}, -- Droman Aliothe
+        {"Casual"} -- Stonehead
+    }
+    local slot3_prefs = {
+        {"Clean", "Formal"}, -- Polemarch Adrestes
+        {"Safe", "Humble"}, -- Alexandros Mograine
+        {"Dangerous", "Casual"}, -- Hunt-Captain Korayn 
+        {"Messy", "Relaxing"} -- Rendle and Cudgelface
+    }
+    local slot4_prefs = {
+        {"Clean", "Safe", "Humble"}, -- Mikanikos
+        {"Dangerous", "Decadent", "Exciting"}, -- Baroness Vashj
+        {"Messy", "Exciting", "Casual"}, -- Lady Moonberry
+        {"Decadent", "Relaxing", "Formal"} -- The Countess
+    }
 
-
-    -- array with 1,2,3,4 spots for selected faction and their attributes
+    -- function to sum each attribute and choose winnner
+    -- pass it an attribute name - messy or clean, humble or decadent
+    -- sumAttributeWeight("formal")
+    -- returns integer for how many times a thing appears
+    -- then compare the sum of the two competing attributes
+    -- choose the bigger one to display as target attribute.
 
     -- sum up each time an attribute appears in a guest's preferences matrix.
-        -- only if that guest is not at full rank. 
-        -- or greater weight to unmaxed guests? 1 for best friend, 2 for non best friend.
+    -- only if that guest is not at full rank. 
+    -- or greater weight to unmaxed guests? 1 for best friend, 2 for non best friend.
     -- whichever attribute out of the two is highest, display that one in the targets. 
+
+    local calc_button = AceGUI:Create("Button")
+    calc_button:SetText("Calculate Target Attributes")
+    calc_button:SetWidth(300)
+    calc_button:SetCallback("OnClick", function() print(slot4_prefs[3][1], slot4_prefs[3][2], slot4_prefs[3][3]) end)
+    frame:AddChild(calc_button)
     
 
 end
