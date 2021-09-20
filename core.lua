@@ -48,6 +48,11 @@ function EmberCourtHelper:GetIncompleteReps()
     return reps
 end
 
+function EmberCourtHelper:dropdown_value_callback(this, event, choice) 
+    print(choice)
+end
+
+
 function EmberCourtHelper:CreateWindow()
 
     local frame = AceGUI:Create("Frame")
@@ -114,6 +119,9 @@ function EmberCourtHelper:CreateWindow()
     local slot3_options = {"Polemarch Adrestes", "Alexandros Mograine", "Hunt-Captain Korayn", "Rendle and Cudgelface"}
     local slot4_options = {"Mikanikos", "Baroness Vashj", "Lady Moonberry", "The Countess"}
 
+
+
+
     -- Create dropdown frame and add child slot frames to select guests
     local dropdownFrame = AceGUI:Create("TabGroup")
     dropdownFrame:SetTitle("Guest Selection")
@@ -122,44 +130,101 @@ function EmberCourtHelper:CreateWindow()
     dropdownFrame:SetWidth(665)
     dropdownFrame:SetHeight(200)
 
-
+    local slot1_choice
     local slot1 = AceGUI:Create("Dropdown")
     slot1:SetRelativeWidth(.25)
     slot1:SetLabel("Select 1st Guest")
     slot1:SetList(slot1_options)
-    slot1:SetValue("Sika") -- Save between sessions
+    -- slot1:SetValue("Sika") -- Save between sessions
+    slot1:SetCallback("OnValueChanged", function(widget, event, choice) slot1_choice = choice end)
+    -- slot1:SetCallback("OnValueChanged", dropdown_value_callback)
     dropdownFrame:AddChild(slot1)
 
+    local slot2_choice
     local slot2 = AceGUI:Create("Dropdown")
     slot2:SetRelativeWidth(.25)
     slot2:SetLabel("Select 2nd Guest")
     slot2:SetList(slot2_options)
     slot2:SetValue("Kleia and Pelagos")
+    slot2:SetCallback("OnValueChanged", function(widget, event, choice) slot2_choice = choice end)
     dropdownFrame:AddChild(slot2)
 
+    local slot3_choice
     local slot3 = AceGUI:Create("Dropdown")
     slot3:SetRelativeWidth(.25)
     slot3:SetLabel("Select 3rd Guest")
     slot3:SetList(slot3_options)
     slot3:SetValue("Polemarch Adrestes")
+    slot3:SetCallback("OnValueChanged", function(widget, event, choice) slot3_choice = choice end)
     dropdownFrame:AddChild(slot3)
 
+    local slot4_choice
     local slot4 = AceGUI:Create("Dropdown")
     slot4:SetRelativeWidth(.25)
     slot4:SetLabel("Select 4th Guest")
     slot4:SetList(slot4_options)
     slot4:SetValue("Mikanikos")
+    slot4:SetCallback("OnValueChanged", function(widget, event, choice) slot4_choice = choice end)
     dropdownFrame:AddChild(slot4)
+    
+
+    local calc_button = AceGUI:Create("Button")
+    calc_button:SetText("Calculate Target Attributes")
+    calc_button:SetWidth(100)
+    calc_button:SetCallback("OnClick", function() print(
+        slot1_options[slot1_choice],
+        slot2_options[slot2_choice],
+        slot3_options[slot3_choice],
+        slot4_options[slot4_choice]) 
+    end)
+    frame:AddChild(calc_button)
+
+
+
+
+
+    -- local frame = AceGUI:Create("Frame")
+    -- frame:SetTitle("Example Frame")
+    -- frame:SetStatusText("AceGUI-3.0 Example Container Frame")
+    -- frame:SetCallback("OnClose", function(widget) AceGUI:Release(widget) end)
+    -- frame:SetLayout("Flow")
+
+    -- local editbox = AceGUI:Create("EditBox")
+    -- editbox:SetLabel("Insert text:")
+    -- editbox:SetWidth(200)
+    -- editbox:SetCallback("OnEnterPressed", function(widget, event, text) textStore = text end)
+    -- frame:AddChild(editbox)
+    
+    -- local slot1_choice
+    -- local slot1 = AceGUI:Create("Dropdown")
+    -- slot1:SetRelativeWidth(.25)
+    -- slot1:SetLabel("Select 1st Guest")
+    -- slot1:SetList(slot1_options)
+    -- slot1:SetCallback("OnValueChanged", function(widget, event, choice) slot1_choice = choice end)
+    -- frame:AddChild(slot1)
+
+    -- local button = AceGUI:Create("Button")
+    -- button:SetText("Click Me!")
+    -- button:SetWidth(200)
+    -- button:SetCallback("OnClick", function() print(slot1_choice) end)
+    -- frame:AddChild(button)
+
 
 
     -- array with 1,2,3,4 spots for selected faction and their attributes
+
+    -- sum up each time an attribute appears in a guest's preferences matrix.
+        -- only if that guest is not at full rank. 
+        -- or greater weight to unmaxed guests? 1 for best friend, 2 for non best friend.
+    -- whichever attribute out of the two is highest, display that one in the targets. 
+    
 
 end
 
 
 -- Called when the addon is enabled
 function EmberCourtHelper:OnEnable()
-    self:Print("Loaded successfully!")
+
 end
 
 
