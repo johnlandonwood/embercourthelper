@@ -184,6 +184,40 @@ function EmberCourtHelper:CreateWindow()
         {"Decadent", "Relaxing", "Formal"} -- The Countess
     }
 
+    
+    -- move slot_prefs and slot_options to global positions above OnInitialize
+    -- ensure that these work with the code still set up as it is
+    -- then declare variables
+
+    local messyCtr = 0
+    local cleanCtr = 0
+    local safeCtr = 0 
+    local dangerousCtr = 0  
+    local humbleCtr = 0
+    local decadentCtr = 0
+    local excitingCtr = 0
+    local relaxingCtr = 0
+    local formalCtr = 0
+    local casualCtr = 0
+
+    local cleanliness
+    
+
+    for i = 1,4 do
+        -- if guest is not completed
+        if slot1_prefs[i] == "Messy" then messyCtr = MessyCtr + 1
+        elseif slot1_prefs[i] == "Clean" then cleanCtr = cleanCtr + 1
+        elseif slot1_prefs[i] == "Safe" then safeCtr = safeCtr + 1
+        elseif slot1_prefs[i] == "Dangerous" then Ctr = cleanCtr + 1
+        elseif slot1_prefs[i] == "Humble" then cleanCtr = cleanCtr + 1
+    end
+
+    end
+
+
+    --local attribute_sums = { messyCtr, }
+
+
     -- function to sum each attribute and choose winnner
     -- pass it an attribute name - messy or clean, humble or decadent
     -- sumAttributeWeight("formal")
