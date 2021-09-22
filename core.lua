@@ -3,7 +3,7 @@ local AceGUI = LibStub("AceGUI-3.0")
 
 EmberCourtHelper = LibStub("AceAddon-3.0"):NewAddon("EmberCourtHelper", "AceConsole-3.0")
 
--- Options in Interface (NOT the chat command)
+-- Options in Interface menu
 local options = {
     name = "EmberCourtHelper",
     handler = EmberCourtHelper,
@@ -26,6 +26,7 @@ function EmberCourtHelper:OnInitialize()
     self:RegisterChatCommand("ech", "ChatCommand")
 end
 
+-- Allows user to call addon with chat slash command
 function EmberCourtHelper:ChatCommand(input)
     if not input or input:trim() == "" then
         self:Print("Your options are show or options")
@@ -81,6 +82,21 @@ local slot4_prefs = {
     {"Decadent", "Relaxing", "Formal"} -- The Countess
 }
 
+
+-- Table containing all incomplete Ember Court friend faction reputations
+local incompleteReps = EmberCourtHelper:GetIncompleteReps()
+
+-- Determine if a faction name exists in the ioncompleteReps table
+function EmberCourtHelper:incompleteReps_contains(name)
+    for element, _ in pairs(incompleteReps) do 
+        if element == name then
+            return true
+        end
+    end
+    return false
+end
+
+
 -- Sum up attributes that each selected guest prefers and return strings for moods to target.
 function EmberCourtHelper:calculateTargetAttributes(slot1_choice, slot2_choice, slot3_choice, slot4_choice)
 
@@ -95,6 +111,14 @@ function EmberCourtHelper:calculateTargetAttributes(slot1_choice, slot2_choice, 
     local formalCtr = 0
     local casualCtr = 0
 
+    -- cleaner code:
+    -- for each name in incomplete reps
+    -- lookup function with their attributes 
+    
+
+    if EmberCourtHelper:incompleteReps_contains(slot1_options[slot1_choice]) then
+        
+    end
     if slot1_choice == 1 then cleanCtr = cleanCtr + 1
     elseif slot1_choice == 2 then messyCtr = messyCtr + 1
     elseif slot1_choice == 3 then excitingCtr = excitingCtr + 1
@@ -215,7 +239,7 @@ function EmberCourtHelper:CreateWindow()
     goodfriends:SetRelativeWidth(.21)
 
     -- Determine which friend factions are incomplete and add to display
-    local incompleteReps = EmberCourtHelper:GetIncompleteReps()
+
     for name, standing in pairs(incompleteReps) do
         local repLine = AceGUI:Create("Label")
         repLine:SetText(name)
@@ -282,7 +306,9 @@ function EmberCourtHelper:CreateWindow()
     calc_button:SetCallback("OnClick", 
         function() 
             local cleanliness, danger, decadence, excitement, formality = EmberCourtHelper:calculateTargetAttributes(slot1_choice, slot2_choice, slot3_choice, slot4_choice) 
-            print (cleanliness, danger, decadence, excitement, formality)    
+            -- print (cleanliness, danger, decadence, excitement, formality)
+            print(EmberCourtHelper:incompleteReps_contains(slot1_options[slot1_choice]))
+            print(EmberCourtHelper:incompleteReps_contains(slot2_options[slot2_choice]))
         end 
     )
     frame:AddChild(calc_button)
