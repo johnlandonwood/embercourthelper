@@ -56,32 +56,12 @@ local slot2_options = {"Kleia and Pelagos", "Grandmaster Vole", "Droman Aliothe"
 local slot3_options = {"Polemarch Adrestes", "Alexandros Mograine", "Hunt-Captain Korayn", "Rendle and Cudgelface"}
 local slot4_options = {"Mikanikos", "Baroness Vashj", "Lady Moonberry", "The Countess"}
 
--- Tables for guest preferences
-local slot1_prefs = {
-    {"Clean"}, -- Sika
-    {"Messy"}, -- Marileth
-    {"Exciting"}, -- Choofa
-    {"Formal"} -- Kassir
-}
-local slot2_prefs = {
-    {"Humble"}, -- Kleia and Pelagos
-    {"Dangerous"}, -- Grandmaster Vole
-    {"Relaxing"}, -- Droman Aliothe
-    {"Casual"} -- Stonehead
-}
-local slot3_prefs = {
-    {"Clean", "Formal"}, -- Polemarch Adrestes
-    {"Safe", "Humble"}, -- Alexandros Mograine
-    {"Dangerous", "Casual"}, -- Hunt-Captain Korayn 
-    {"Messy", "Relaxing"} -- Rendle and Cudgelface
-}
-local slot4_prefs = {
-    {"Clean", "Safe", "Humble"}, -- Mikanikos
-    {"Dangerous", "Decadent", "Exciting"}, -- Baroness Vashj
-    {"Messy", "Exciting", "Casual"}, -- Lady Moonberry
-    {"Decadent", "Relaxing", "Formal"} -- The Countess
-}
-
+-- Values that each party attribute can have
+local cleanliness_options = {"Clean", "Messy"}
+local danger_options = {"Safe", "Dangerous"}
+local decadence_options = {"Humble", "Decadent"}
+local excitement_options = {"Relaxing", "Exciting"}
+local formality_options = {"Casual", "Formal"}
 
 -- Table containing all incomplete Ember Court friend faction reputations
 local incompleteReps = EmberCourtHelper:GetIncompleteReps()
@@ -111,56 +91,60 @@ function EmberCourtHelper:calculateTargetAttributes(slot1_choice, slot2_choice, 
     local formalCtr = 0
     local casualCtr = 0
 
-    -- cleaner code:
-    -- for each name in incomplete reps
-    -- lookup function with their attributes 
-    
-
-    if EmberCourtHelper:incompleteReps_contains(slot1_options[slot1_choice]) then
-        
-    end
-    if slot1_choice == 1 then cleanCtr = cleanCtr + 1
-    elseif slot1_choice == 2 then messyCtr = messyCtr + 1
-    elseif slot1_choice == 3 then excitingCtr = excitingCtr + 1
-    elseif slot1_choice == 4 then formalCtr = formalCtr + 1
+    -- Check if slot 1 selection is an incomplete rep. If so, factor in its preferences to sum.
+    if EmberCourtHelper:incompleteReps_contains(slot1_options[slot1_choice]) == true then
+        if slot1_choice == 1 then cleanCtr = cleanCtr + 1 -- Sika
+        elseif slot1_choice == 2 then messyCtr = messyCtr + 1 -- Plague Deviser Marileth
+        elseif slot1_choice == 3 then excitingCtr = excitingCtr + 1 -- Choofa
+        elseif slot1_choice == 4 then formalCtr = formalCtr + 1 -- Cryptkeeper Kassir
+        end
     end
 
-    if slot2_choice == 1 then humbleCtr= humbleCtr + 1
-    elseif slot2_choice == 2 then dangerousCtr = dangerousCtr + 1
-    elseif slot2_choice == 3 then relaxingCtr = relaxingCtr + 1
-    elseif slot2_choice == 4 then casualCtr = casualCtr + 1
+    -- Check if slot 2 selection is an incomplete rep. If so, factor in its preferences to sum.
+    if EmberCourtHelper:incompleteReps_contains(slot2_options[slot2_choice]) == true then 
+        if slot2_choice == 1 then humbleCtr= humbleCtr + 1 --Kleia and Pelagos
+        elseif slot2_choice == 2 then dangerousCtr = dangerousCtr + 1 -- Grandmaster Vole
+        elseif slot2_choice == 3 then relaxingCtr = relaxingCtr + 1 -- Droman Aliothe
+        elseif slot2_choice == 4 then casualCtr = casualCtr + 1 -- Stonehead
+        end
     end
 
-    if slot3_choice == 1 then 
-        cleanCtr = cleanCtr + 1
-        formalCtr = formalCtr + 1
-    elseif slot3_choice == 2 then 
-        safeCtr = safeCtr + 1
-        humbleCtr = humbleCtr + 1
-    elseif slot3_choice == 3 then 
-        dangerousCtr = dangerousCtr + 1
-        casualCtr = casualCtr + 1
-    elseif slot3_choice == 4 then 
-        messyCtr = messyCtr + 1
-        relaxingCtr = relaxingCtr + 1
+    -- Check if slot 3 selection is an incomplete rep. If so, factor in its preferences to sum.
+    if EmberCourtHelper:incompleteReps_contains(slot3_options[slot3_choice]) == true then
+        if slot3_choice == 1 then -- Polemarch Adrestes
+            cleanCtr = cleanCtr + 1
+            formalCtr = formalCtr + 1
+        elseif slot3_choice == 2 then -- Alexandros Mograine
+            safeCtr = safeCtr + 1
+            humbleCtr = humbleCtr + 1
+        elseif slot3_choice == 3 then -- Hunt-Captain Korayn
+            dangerousCtr = dangerousCtr + 1
+            casualCtr = casualCtr + 1
+        elseif slot3_choice == 4 then -- Rendle and Cudgelface
+            messyCtr = messyCtr + 1
+            relaxingCtr = relaxingCtr + 1
+        end
     end
 
-    if slot4_choice == 1 then 
-        cleanCtr = cleanCtr + 1
-        safeCtr = safeCtr + 1
-        humbleCtr = humbleCtr + 1
-    elseif slot4_choice == 2 then 
-        dangerousCtr = dangerousCtr + 1
-        decadentCtr = decadentCtr + 1
-        excitingCtr = excitingCtr + 1
-    elseif slot4_choice == 3 then 
-        messyCtr = messyCtr + 1
-        excitingCtr = excitingCtr + 1
-        casualCtr = casualCtr + 1
-    elseif slot4_choice == 4 then 
-        decadentCtr = decadentCtr + 1
-        relaxingCtr = relaxingCtr + 1
-        formalCtr = formalCtr + 1
+    -- Check if slot 4 selection is an incomplete rep. If so, factor in its preferences to sum.
+    if EmberCourtHelper:incompleteReps_contains(slot4_options[slot4_choice]) then
+        if slot4_choice == 1 then -- Mikanikos
+            cleanCtr = cleanCtr + 1
+            safeCtr = safeCtr + 1
+            humbleCtr = humbleCtr + 1
+        elseif slot4_choice == 2 then -- Baroness Vashj
+            dangerousCtr = dangerousCtr + 1
+            decadentCtr = decadentCtr + 1
+            excitingCtr = excitingCtr + 1
+        elseif slot4_choice == 3 then -- Lady Moonberry
+            messyCtr = messyCtr + 1
+            excitingCtr = excitingCtr + 1
+            casualCtr = casualCtr + 1
+        elseif slot4_choice == 4 then  -- The Countess
+            decadentCtr = decadentCtr + 1
+            relaxingCtr = relaxingCtr + 1
+            formalCtr = formalCtr + 1
+        end
     end
 
     local cleanliness 
@@ -169,33 +153,41 @@ function EmberCourtHelper:calculateTargetAttributes(slot1_choice, slot2_choice, 
     local excitement
     local formality
 
+    -- Determine which attribute has greater weight and assign it to be returned.
+    -- If the two counters are equal, then a random choice between the two is made.
+    -- Because the only guests whose weights are added are incomplete reputations,
+    -- even if two guests have a conflicting attribute, increasing that attribute to either side 
+    -- will be beneficial to completing a reputation regardless.
+
     if cleanCtr > messyCtr then cleanliness = "Clean"
     elseif messyCtr > cleanCtr then cleanliness = "Messy"
-    -- Determine what if values are equal. Choose default? 
-    -- If you have the safeguards for only factoring in non maxed friends then either attribute would end up being beneficial i think.
-    -- if nil is returned for an attribute, then do a random choice of a table?
+    elseif cleanCtr == messyCtr then cleanliness = cleanliness_options[math.random(2)]
     end
 
     if safeCtr > dangerousCtr then danger = "Safe"
     elseif dangerousCtr > safeCtr then danger = "Dangerous"
+    elseif safeCtr == dangerousCtr then danger = danger_options[math.random(2)]
     end
 
     if humbleCtr > decadentCtr then decadence = "Humble"
     elseif decadentCtr > humbleCtr then decadence = "Decadent"
+    elseif humbleCtr == decadentCtr then decadence = decadence_options[math.random(2)]
     end
     
     if excitingCtr > relaxingCtr then excitement = "Exciting"
     elseif relaxingCtr > excitingCtr then excitement = "Relaxing"
+    elseif excitingCtr == relaxingCtr then excitement = excitement_options[math.random(2)]
     end
 
     if formalCtr > casualCtr then formality = "Formal"
     elseif casualCtr > formalCtr then formality = "Casual"
+    elseif formalCtr == casualCtr then formality = formality_options[math.random(2)]
     end
 
     return cleanliness, danger, decadence, excitement, formality
 end
 
-
+-- Draw main frame with children for dropdowns, buttons, TabGroups, etc.
 function EmberCourtHelper:CreateWindow()
 
     -- Initialize main frame
@@ -299,22 +291,25 @@ function EmberCourtHelper:CreateWindow()
     slot4:SetCallback("OnValueChanged", function(widget, event, choice) slot4_choice = choice end)
     dropdownFrame:AddChild(slot4)
     
+    local cleanliness, danger, decadence, excitement, formality
+    local cleanliness_label = AceGUI:Create("Label")
 
     local calc_button = AceGUI:Create("Button")
     calc_button:SetText("Calculate Target Attributes")
-    calc_button:SetWidth(300)
+    calc_button:SetWidth(250)
     calc_button:SetCallback("OnClick", 
         function() 
-            local cleanliness, danger, decadence, excitement, formality = EmberCourtHelper:calculateTargetAttributes(slot1_choice, slot2_choice, slot3_choice, slot4_choice) 
-            -- print (cleanliness, danger, decadence, excitement, formality)
-            print(EmberCourtHelper:incompleteReps_contains(slot1_options[slot1_choice]))
-            print(EmberCourtHelper:incompleteReps_contains(slot2_options[slot2_choice]))
+            cleanliness, danger, decadence, excitement, formality = EmberCourtHelper:calculateTargetAttributes(slot1_choice, slot2_choice, slot3_choice, slot4_choice) 
+            cleanliness_label:SetText(cleanliness)
+            frame:AddChild(cleanliness_label)
         end 
     )
     frame:AddChild(calc_button)
     
     -- assign strings to displays
-    -- add check for whether or not faction is best friend. How to implement?
+
+
+    
 
 end
 
@@ -325,7 +320,7 @@ function EmberCourtHelper:OnEnable()
 end
 
 
--- Called when the addon is disabled
+-- Called when the addon is disabledw
 function EmberCourtHelper:OnDisable()
 
 end
