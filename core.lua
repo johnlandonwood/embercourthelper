@@ -30,6 +30,8 @@ end
 function EmberCourtHelper:ChatCommand(input)
     if not input or input:trim() == "" then
         self:Print("Usage:")
+        self:Print("/ech show: Shows the interface windows")
+        self:Print("/ech options: Opens addon options menu")
     elseif input == "show" then
         EmberCourtHelper:CreateWindow()
     elseif input == "options" then
