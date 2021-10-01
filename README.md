@@ -25,11 +25,15 @@ The addon is lightweight - it uses only 25 kb of in-game memory - and comes with
 ![image](https://user-images.githubusercontent.com/70063561/135683658-acce2456-17b8-4598-96c6-b476cefa56fb.png)
 
 **Installation**
-- curseforge/wowup availablity
-- extract folders
-  -  default path on windows is
-  -  default path on mac is
-  -  you can find where your files are installed by going to blizzard launcher and looking here:
+To install EmberCourtHelper: 
+- Download the repository as a `.zip` file.
+- Extract the contents of the `.zip` to the WoW addons folder.
+  - For Windows users, the default addon installation folder is `C:\Program Files (x86)\World of Warcraft\_retail_\Interface\AddOns`.
+  - If you are on a different operating system or you installed the game files in another location, you can check the install location on the Battle.net launcher.
+    - Open the World of Warcraft in Battle.net.
+    - Open the game options right next to the "Play" button.
+    - Click game settings and view the "Install Location" tab.
 
 **Planned Future Updates**
-
+- An algorithm to weight the different options for party amenities. This would let the player know which selection to choose from the Entertainment, Refreshments, Decoration, and Security options.
+- In-court tips/guides on how to complete the mini events that spawn during the court.
