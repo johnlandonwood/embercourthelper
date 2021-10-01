@@ -1,4 +1,4 @@
-local version = 0.1
+local version = "1.0.0"
 local AceGUI = LibStub("AceGUI-3.0")
 
 EmberCourtHelper = LibStub("AceAddon-3.0"):NewAddon("EmberCourtHelper", "AceConsole-3.0")
@@ -29,7 +29,7 @@ end
 -- Allows user to call addon with chat slash command
 function EmberCourtHelper:ChatCommand(input)
     if not input or input:trim() == "" then
-        self:Print("Your options are show or options")
+        self:Print("Usage:")
     elseif input == "show" then
         EmberCourtHelper:CreateWindow()
     elseif input == "options" then
@@ -202,36 +202,35 @@ function EmberCourtHelper:CreateWindow()
     repGroups:SetTitle("Incomplete Guest Reputations")
     frame:AddChild(repGroups)
     repGroups:SetLayout("Flow")
-    repGroups:SetWidth(665)
+    repGroups:SetWidth(650)
     repGroups:SetHeight(150)
     
     local strangers = AceGUI:Create("TabGroup")
     strangers:SetTitle("Strangers")
     repGroups:AddChild(strangers)
-    strangers:SetRelativeWidth(.21)
+    strangers:SetRelativeWidth(.20)
 
     local acquaintances = AceGUI:Create("TabGroup")
     acquaintances:SetTitle("Acquaintances")
     repGroups:AddChild(acquaintances)
-    acquaintances:SetRelativeWidth(.21)
+    acquaintances:SetRelativeWidth(.20)
 
     local buddies = AceGUI:Create("TabGroup")
     buddies:SetTitle("Buddies")
     repGroups:AddChild(buddies)
-    buddies:SetRelativeWidth(.21)
+    buddies:SetRelativeWidth(.20)
 
     local friends = AceGUI:Create("TabGroup")
     friends:SetTitle("Friends")
     repGroups:AddChild(friends)
-    friends:SetRelativeWidth(.21)
+    friends:SetRelativeWidth(.20)
 
     local goodfriends = AceGUI:Create("TabGroup")
     goodfriends:SetTitle("Good Friends")
     repGroups:AddChild(goodfriends)
-    goodfriends:SetRelativeWidth(.21)
+    goodfriends:SetRelativeWidth(.20)
 
     -- Determine which friend factions are incomplete and add to display
-
     for name, standing in pairs(incompleteReps) do
         local repLine = AceGUI:Create("Label")
         repLine:SetText(name)
@@ -291,25 +290,70 @@ function EmberCourtHelper:CreateWindow()
     slot4:SetCallback("OnValueChanged", function(widget, event, choice) slot4_choice = choice end)
     dropdownFrame:AddChild(slot4)
     
+
+    -- Labels for target attributes
     local cleanliness, danger, decadence, excitement, formality
     local cleanliness_label = AceGUI:Create("Label")
+    local danger_label = AceGUI:Create("Label")
+    local decadence_label = AceGUI:Create("Label")
+    local excitement_label = AceGUI:Create("Label")
+    local formality_label = AceGUI:Create("Label")
 
+    -- Button with callback to calculate target attributes
     local calc_button = AceGUI:Create("Button")
     calc_button:SetText("Calculate Target Attributes")
     calc_button:SetWidth(250)
+    frame:AddChild(calc_button)
     calc_button:SetCallback("OnClick", 
         function() 
             cleanliness, danger, decadence, excitement, formality = EmberCourtHelper:calculateTargetAttributes(slot1_choice, slot2_choice, slot3_choice, slot4_choice) 
             cleanliness_label:SetText(cleanliness)
-            frame:AddChild(cleanliness_label)
+            danger_label:SetText(danger)
+            decadence_label:SetText(decadence)
+            excitement_label:SetText(excitement)
+            formality_label:SetText(formality)
         end 
     )
-    frame:AddChild(calc_button)
-    
-    -- assign strings to displays
 
+    -- Containers for labels that specify which attributes are to be targeted this week.
+    -- Similar nested tab group structure to repGroups. 
+    local calculatedTargets = AceGUI:Create("TabGroup")
+    calculatedTargets:SetLayout("Flow")
+    calculatedTargets:SetTitle("Attributes to Target") 
+    calculatedTargets:SetWidth(650)
+    calculatedTargets:SetHeight(100)
+    frame:AddChild(calculatedTargets)
 
+    local cleanliness_target_tab = AceGUI:Create("TabGroup")
+    cleanliness_target_tab:SetTitle("Cleanliness")
+    calculatedTargets:AddChild(cleanliness_target_tab)
+    cleanliness_target_tab:SetRelativeWidth(.2)
+    cleanliness_target_tab:AddChild(cleanliness_label)
+
+    local danger_target_tab = AceGUI:Create("TabGroup")
+    danger_target_tab:SetTitle("Danger")
+    calculatedTargets:AddChild(danger_target_tab)
+    danger_target_tab:SetRelativeWidth(.2)
+    danger_target_tab:AddChild(danger_label)
     
+    local decadence_target_tab = AceGUI:Create("TabGroup")
+    decadence_target_tab:SetTitle("Decadence")
+    calculatedTargets:AddChild(decadence_target_tab)
+    decadence_target_tab:SetRelativeWidth(.2)
+    decadence_target_tab:AddChild(decadence_label)
+
+    local excitement_target_tab = AceGUI:Create("TabGroup")
+    excitement_target_tab:SetTitle("Excitement")
+    calculatedTargets:AddChild(excitement_target_tab)
+    excitement_target_tab:SetRelativeWidth(.2)
+    excitement_target_tab:AddChild(excitement_label)
+
+    local formality_target_tab = AceGUI:Create("TabGroup")
+    formality_target_tab:SetTitle("Formality")
+    calculatedTargets:AddChild(formality_target_tab)
+    formality_target_tab:SetRelativeWidth(.2)
+    formality_target_tab:AddChild(formality_label)
+
 
 end
 
@@ -319,8 +363,7 @@ function EmberCourtHelper:OnEnable()
 
 end
 
-
--- Called when the addon is disabledw
+-- Called when the addon is disabled
 function EmberCourtHelper:OnDisable()
 
 end
