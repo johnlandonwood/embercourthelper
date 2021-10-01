@@ -20,7 +20,7 @@ The player gains a higher "happiness" score with each NPC based on how well they
 
 With **EmberCourtHelper**, the user can input the specific guests that they would like to host at the Ember Court that week. The addon will then run an algorithm to determine which combination of attributes will maximize the total score possible for that combination of guests. When deciding which way to sway a certain attribute, the algorithm gives priority to guests that do not yet have an established positive relationship with the player. (Each guest NPC has a "reputation" bar - by inviting a guest and making them happy, you increase your standing with them, so then they will have a higher chance of giving you better rewards at future Ember Courts without focusing on their happiness alone.) If the weights toward each side of an attribute is equal—for example, if 2 guests prefer Messy and 2 guests prefer Clean—then the algorithm will make a random selection between Messy or Clean. This is because it won't make a difference which one is chosen; for that specific combination of guests and their reputation standings, the same overall benefit to the player will occur either way.
 
-The addon is lightweight - it uses only 25 kb of in-game memory - and comes with a simple, clean user interface.
+The addon is lightweight - it uses only 25 kb of in-game memory - and comes with a simple, clean user interface. The interface and several addon functions are written using libraries from the community addon development framework, [Ace3.0](https://www.wowace.com/projects/ace3).
 
 ![image](https://user-images.githubusercontent.com/70063561/135683658-acce2456-17b8-4598-96c6-b476cefa56fb.png)
 
